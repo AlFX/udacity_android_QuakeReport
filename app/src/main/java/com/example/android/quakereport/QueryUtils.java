@@ -2,13 +2,11 @@ package com.example.android.quakereport;
 
         import android.util.Log;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-        import java.text.SimpleDateFormat;
-        import java.util.ArrayList;
-        import java.util.Date;
+import java.util.ArrayList;
 
 /*Helper methods related to requesting and receiving earthquake data from USGS.*/
 public final class QueryUtils {
@@ -50,12 +48,10 @@ public final class QueryUtils {
                 JSONObject properties = quakeObject.getJSONObject("properties");    /*get the properties object*/
                 String mag = properties.optString("mag");                           /*get values and convert them to strings*/
                 String place = properties.optString("place");
-                Long time = properties.getLong("time");
-                    Date dateObject = new Date(time);
-                    SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM DD, yyyy");
-                    String dateToDisplay = dateFormatter.format(dateObject);
-                earthquakes.add(new Earthquake(mag, place, dateToDisplay));                  /*populating earthquakes ArrayList*/
+                Long time = properties.getLong("time");                             /*get time as Long instead of String*/
+                earthquakes.add(new Earthquake(mag, place, time));
             }
+
 
 
         } catch (JSONException e) {

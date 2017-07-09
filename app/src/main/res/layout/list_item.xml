@@ -7,17 +7,41 @@
 
     <TextView
         android:id="@+id/magnitude"
-        style="@style/magnitude"
-        android:text="6.66" />
+        android:text="6.66"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/location"
-        style="@style/location"
-        android:text="Vatican city" />
+        android:text="Vatican city"
+        android:textSize="24dp"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="5"
+        android:gravity="center" />
 
-    <TextView
-        android:id="@+id/date"
-        style="@style/date"
-        android:text="June 6th 2006" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/date"
+            android:text="June 6th 2006"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/time"
+            android:text="06:00 AM"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center" />
+
+    </LinearLayout>
 
 </LinearLayout>

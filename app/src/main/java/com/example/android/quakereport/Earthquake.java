@@ -5,13 +5,13 @@ public class Earthquake {
     /*fields*/
     private String mMagnitude;
     private String mLocation;
-    private String mDate;
+    private Long mTimeInMilliseconds;
 
     /*constructor method*/
-    public Earthquake(String magnitude, String location, String date){
+    public Earthquake(String magnitude, String location, Long timeInMilliseconds){
         mMagnitude = magnitude;
         mLocation = location;
-        mDate = date;
+        mTimeInMilliseconds = timeInMilliseconds;
     }
 
     /*helper methods*/
@@ -21,7 +21,7 @@ public class Earthquake {
     public String getLocation(){
         return mLocation;
     }
-    public String getDate(){
-        return mDate;
+    public Long getTimeInMilliseconds(){
+        return mTimeInMilliseconds;
     }
 }

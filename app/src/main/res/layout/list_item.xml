@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/magnitude"
-        style="@style/magnitude_date"
+        style="@style/magnitude"
         android:text="6.66" />
 
     <TextView
@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/date"
-        style="@style/magnitude_date"
+        style="@style/date"
         android:text="June 6th 2006" />
 
 </LinearLayout>

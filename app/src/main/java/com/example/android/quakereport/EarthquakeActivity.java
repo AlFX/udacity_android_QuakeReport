@@ -31,14 +31,22 @@ public class EarthquakeActivity extends AppCompatActivity {
         setContentView(R.layout.earthquake_activity);
 
         // Create a fake list of earthquake locations.
-        final ArrayList<Earthquake> earthquakes = new ArrayList<>();
+        /*ArrayList<Earthquake> earthquakes = new ArrayList<>();
+        earthquakes.add(new Earthquake("6.66", "Vatican City", "June, 6th 2006"));
+        earthquakes.add(new Earthquake("6.66", "Napoli", "June, 6th 2006"));
+        earthquakes.add(new Earthquake("6.66", "Palermo", "June, 6th 2006"));
         earthquakes.add(new Earthquake("6.66", "San Francisco", "June, 6th 2006"));
         earthquakes.add(new Earthquake("6.66", "London", "June, 6th 2006"));
         earthquakes.add(new Earthquake("6.66", "Tokyo", "June, 6th 2006"));
         earthquakes.add(new Earthquake("6.66", "Mexico City", "June, 6th 2006"));
         earthquakes.add(new Earthquake("6.66", "Moscow", "June, 6th 2006"));
         earthquakes.add(new Earthquake("6.66", "Rio de Janeiro", "June, 6th 2006"));
-        earthquakes.add(new Earthquake("6.66", "Paris", "June, 6th 2006"));
+        earthquakes.add(new Earthquake("6.66", "Paris", "June, 6th 2006"));*/
+
+        /*instead of manually populating the ArrayList, we call extractEarthquakes
+        * from QueryUtils.java module which converts a JSONObjects into something
+        * manageable by Java*/
+        ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
 
         // Find a reference to the ListView in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);

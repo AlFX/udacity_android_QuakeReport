@@ -78,7 +78,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         timeView.setText(formattedTime);
 
         /*set proper background color on the magnitude circle.
-        Fetch teh background from the TextView, which is a GradientDrawable*/
+        Fetch the background from the TextView, which is a GradientDrawable*/
         GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeView.getBackground();
 
         /*get the appropriate background color based on the current earthquake magnitude*/
@@ -86,6 +86,10 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
         /*set the color on the magnitude circle*/
         magnitudeCircle.setColor(magnitudeColor);
+
+        /*website*/
+        String website = currentEarthquake.getWebsite();
+
 
         /*return the now populated object*/
         return listItemView;

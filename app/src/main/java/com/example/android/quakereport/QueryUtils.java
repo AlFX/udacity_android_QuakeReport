@@ -49,7 +49,8 @@ public final class QueryUtils {
                 Double mag = properties.getDouble("mag");                           /*get values and convert them to strings*/
                 String place = properties.optString("place");
                 Long time = properties.getLong("time");                             /*get time as Long instead of String*/
-                earthquakes.add(new Earthquake(mag, place, time));
+                String website = properties.getString(se)
+                earthquakes.add(new Earthquake(mag, place, time, website));
             }
 
 

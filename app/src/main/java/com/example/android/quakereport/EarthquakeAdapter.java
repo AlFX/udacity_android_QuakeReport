@@ -90,6 +90,15 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         /*website*/
         String website = currentEarthquake.getWebsite();
 
+        /* TODO: intent to url*/
+        findViewById(R.id.button).setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(website));
+                startActivity(i);
+            }
+        });
 
         /*return the now populated object*/
         return listItemView;

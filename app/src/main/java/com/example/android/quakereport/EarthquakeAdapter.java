@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.graphics.drawable.GradientDrawable;
+
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
     private static final String LOCATION_SEPARATOR = "of";
@@ -74,6 +76,16 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         TextView timeView = (TextView) listItemView.findViewById(R.id.time);
         String formattedTime = formatTime(dateObject);
         timeView.setText(formattedTime);
+
+        /*set proper background color on the magnitude circle.
+        Fetch teh background from the TextView, which is a GradientDrawable*/
+        GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeView.getBackground();
+
+        /*get the appropriate background color based on the current earthquake magnitude*/
+        int magnitudeColor = getMagnitudeColor (currentEarthquake.getMagnitude());
+
+        /*set the color on the magnitude circle*/
+        magnitudeCircle.setColor(magnitudeColor);
 
         /*return the now populated object*/
         return listItemView;

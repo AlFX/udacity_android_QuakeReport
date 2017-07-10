@@ -3,19 +3,19 @@ package com.example.android.quakereport;
 public class Earthquake {
 
     /*fields*/
-    private String mMagnitude;
+    private Double mMagnitude;
     private String mLocation;
     private Long mTimeInMilliseconds;
 
     /*constructor method*/
-    public Earthquake(String magnitude, String location, Long timeInMilliseconds){
+    public Earthquake(Double magnitude, String location, Long timeInMilliseconds){
         mMagnitude = magnitude;
         mLocation = location;
         mTimeInMilliseconds = timeInMilliseconds;
     }
 
     /*helper methods*/
-    public String getMagnitude(){
+    public Double getMagnitude(){
         return mMagnitude;
     }
     public String getLocation(){

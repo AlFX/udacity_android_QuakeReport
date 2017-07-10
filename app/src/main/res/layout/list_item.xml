@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/magnitude"
-        android:text="6.66"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center" />
+        android:gravity="center"
+        android:text="6.66" />
 
-    <TextView
-        android:id="@+id/location"
-        android:text="Vatican city"
-        android:textSize="24dp"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="5"
-        android:gravity="center" />
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/location_offset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="near the"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/primary_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Vatican city"
+            android:textSize="24dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -30,17 +49,17 @@
 
         <TextView
             android:id="@+id/date"
-            android:text="June 6th 2006"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:gravity="center" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="June 6th 2006" />
 
         <TextView
             android:id="@+id/time"
-            android:text="06:00 AM"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:gravity="center" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="06:00 AM" />
 
     </LinearLayout>
 

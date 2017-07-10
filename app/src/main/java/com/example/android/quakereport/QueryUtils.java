@@ -46,7 +46,7 @@ public final class QueryUtils {
             for (int i =0; i < featuresArray.length(); i++){                        /*loop through each item*/
                 JSONObject quakeObject = featuresArray.getJSONObject(i);            /*get earthquake i-th object*/
                 JSONObject properties = quakeObject.getJSONObject("properties");    /*get the properties object*/
-                String mag = properties.optString("mag");                           /*get values and convert them to strings*/
+                Double mag = properties.getDouble("mag");                           /*get values and convert them to strings*/
                 String place = properties.optString("place");
                 Long time = properties.getLong("time");                             /*get time as Long instead of String*/
                 earthquakes.add(new Earthquake(mag, place, time));

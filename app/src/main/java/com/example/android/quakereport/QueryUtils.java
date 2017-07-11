@@ -49,9 +49,9 @@ public final class QueryUtils {
                 Double mag = properties.getDouble("mag");                           /*get values and convert them to strings*/
                 String place = properties.optString("place");
                 Long time = properties.getLong("time");                             /*get time as Long instead of String*/
-                String website = properties.getString("url");                       /*get website to be opened via intent*/
+                String url = properties.getString("url");                       /*get website to be opened via intent*/
 
-                earthquakes.add(new Earthquake(mag, place, time, website));         /*create a new earthquake object that will populate the ArrayList*/
+                earthquakes.add(new Earthquake(mag, place, time, url));         /*create a new earthquake object that will populate the ArrayList*/
             }
 
 

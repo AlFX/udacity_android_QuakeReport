@@ -88,7 +88,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         magnitudeCircle.setColor(magnitudeColor);
 
         /*website*/
-        String website = currentEarthquake.getWebsite();
+        String website = currentEarthquake.getUrl();
 
         /*return the now populated object*/
         return listItemView;

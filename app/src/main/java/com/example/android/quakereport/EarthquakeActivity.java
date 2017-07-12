@@ -15,15 +15,15 @@
  */
 package com.example.android.quakereport;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import android.content.Intent;
+import android.net.Uri;
+import android.view.View;
+import android.widget.AdapterView;
 
 public class EarthquakeActivity extends AppCompatActivity {
 
@@ -50,7 +50,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         /*instead of manually populating the ArrayList, we call extractEarthquakes
         * from QueryUtils.java module which converts a JSONObjects into something
         * manageable by Java*/
-        ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
+        final ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
 
         // Find a reference to the ListView in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
@@ -63,8 +63,8 @@ public class EarthquakeActivity extends AppCompatActivity {
 
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void OnItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // Find the current earthquake that was clicked on
                 Earthquake currentEarthquake = adapter.getItem(position);
 
 

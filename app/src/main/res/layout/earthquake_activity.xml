@@ -12,13 +12,18 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 --><!-- Layout for a list of earthquakes -->
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:divider="@null"
-    android:dividerHeight="0dp"
-    android:orientation="vertical" />
+    android:layout_height="match_parent">
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:orientation="vertical" />
 
     <!--
     android:divider="@null"
@@ -26,3 +31,12 @@
 
     these are meant to eliminate the list divider
     -->
+    <TextView
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:text="Hey!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

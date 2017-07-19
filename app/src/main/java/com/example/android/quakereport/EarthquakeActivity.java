@@ -61,15 +61,15 @@ public class EarthquakeActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        Log.i(LOG_TAG, "TEST: Earthquake Activity onCreate() called");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
+
+        Log.i(LOG_TAG, "TEST: Earthquake Activity onCreate() called");
 
         // Find a reference to the ListView in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
+        // Find the empty TextView meant to display when no earthquakes are available
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         earthquakeListView.setEmptyView(mEmptyStateTextView);
 
@@ -128,6 +128,14 @@ public class EarthquakeActivity extends AppCompatActivity
             mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
     }
+
+    /** here are the 3 callback methods that come with a LoaderManager
+     * <a href="https://developer.android.com/guide/components/loaders.html">Here</a>
+     *
+     * {@link #onCreateLoader(int, Bundle)} called when the system needs a new Loader
+     * {@link #onLoadFinished(Loader, List)} called when the loader has finished loading data
+     * {@link #onLoaderReset(Loader)} called when a loader is reset, activity is destroyed = data unavailable
+     * */
 
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {

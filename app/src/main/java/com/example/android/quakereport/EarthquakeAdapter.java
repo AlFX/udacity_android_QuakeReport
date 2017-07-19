@@ -1,9 +1,7 @@
 package com.example.android.quakereport;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,22 +11,30 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
+    /* The part of the location string from the USGS service that we use to determine whether or
+    * not there is a location offset present (5 km north of The Shithole) */
     private static final String LOCATION_SEPARATOR = "of";
 
-    /*constructor method*/
-    public EarthquakeAdapter(Activity context, ArrayList<Earthquake> earthquakes) {
+    /**
+     * constructor method
+     *
+     * @param context     of the app
+     * @param earthquakes is the list of earthquakes, which is the data source of the adapter
+     */
+    public EarthquakeAdapter(Context context, List<Earthquake> earthquakes) {
         super(context, 0, earthquakes);
     }
 
-    /*helper method*/
-    @NonNull
+    /*helper method
+    * returns a list item view that displays information about the earthquake at the give position
+    * in the list of earthquakes*/
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         /*convertView is what recycles list objects once they are out of sight*/
         View listItemView = convertView;
@@ -47,10 +53,20 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         String formattedMagnitude = formatMagnitude(currentEarthquake.getMagnitude());      /*format magnitude with the helper method below*/
         magnitudeView.setText(formattedMagnitude);
 
+        /*set proper background color on the magnitude circle.
+        Fetch the background from the TextView, which is a GradientDrawable*/
+        GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeView.getBackground();
+
+        /*get the appropriate background color based on the current earthquake magnitude*/
+        int magnitudeColor = getMagnitudeColor(currentEarthquake.getMagnitude());
+
+        /*set the color on the magnitude circle*/
+        magnitudeCircle.setColor(magnitudeColor);
+
         /*location*/
         String originalLocation = currentEarthquake.getLocation();
-        String locationOffset = "";
-        String primaryLocation = "";
+        String primaryLocation;
+        String locationOffset;
 
         if (originalLocation.contains(LOCATION_SEPARATOR)) {
             String[] parts = originalLocation.split(LOCATION_SEPARATOR);
@@ -61,10 +77,11 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
             primaryLocation = originalLocation;
         }
 
-        TextView locationOffsetTextView = (TextView) listItemView.findViewById(R.id.location_offset);
-        locationOffsetTextView.setText(locationOffset);
-        TextView locationPrimaryTextView = (TextView) listItemView.findViewById(R.id.primary_location);
-        locationPrimaryTextView.setText(primaryLocation);
+        TextView primaryLocationView = (TextView) listItemView.findViewById(R.id.primary_location);
+        primaryLocationView.setText(primaryLocation);
+
+        TextView locationOffsetView = (TextView) listItemView.findViewById(R.id.location_offset);
+        locationOffsetView.setText(locationOffset);
 
         /*date*/
         Date dateObject = new Date(currentEarthquake.getTimeInMilliseconds());      /*Create a new Date object from time in milliseconds from JSON*/
@@ -77,39 +94,16 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         String formattedTime = formatTime(dateObject);
         timeView.setText(formattedTime);
 
-        /*set proper background color on the magnitude circle.
-        Fetch the background from the TextView, which is a GradientDrawable*/
-        GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeView.getBackground();
-
-        /*get the appropriate background color based on the current earthquake magnitude*/
-        int magnitudeColor = getMagnitudeColor (currentEarthquake.getMagnitude());
-
-        /*set the color on the magnitude circle*/
-        magnitudeCircle.setColor(magnitudeColor);
-
-        /*website*/
-        String website = currentEarthquake.getUrl();
-
         /*return the now populated object*/
         return listItemView;
     }
 
-    private String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
-        return dateFormat.format(dateObject);
-    }
-
-    private String formatTime(Date dateObject) {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-        return timeFormat.format(dateObject);
-    }
-
-    private String formatMagnitude(double magnitude) {
-        DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
-        return magnitudeFormat.format(magnitude);
-    }
-
-    private int getMagnitudeColor (double magnitude) {
+    /**
+     * Return the color for the magnitude circle based on the intensity of the earthquake.
+     *
+     * @param magnitude of the earthquake
+     */
+    private int getMagnitudeColor(double magnitude) {
         int magnitudeColorResourceId;
         int magnitudeFloor = (int) Math.floor(magnitude);
         switch (magnitudeFloor) {
@@ -145,7 +139,24 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
                 magnitudeColorResourceId = R.color.magnitude10plus;
                 break;
         }
+
         return ContextCompat.getColor(getContext(), magnitudeColorResourceId);
     }
+
+    private String formatDate(Date dateObject) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
+        return dateFormat.format(dateObject);
+    }
+
+    private String formatTime(Date dateObject) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+        return timeFormat.format(dateObject);
+    }
+
+    private String formatMagnitude(double magnitude) {
+        DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
+        return magnitudeFormat.format(magnitude);
+    }
+
 
 }

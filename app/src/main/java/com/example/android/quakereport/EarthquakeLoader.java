@@ -6,7 +6,8 @@ import android.util.Log;
 
 import java.util.List;
 
-/* loads a list of earthquakes by using an AsyncTask to perform the network request to the given URL */
+/* loads a list of earthquakes by using an AsyncTask
+ * to perform the network request to the given URL */
 public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
@@ -14,10 +15,12 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
     /* query URL */
     private String mUrl;
 
-    /* Constructs a new EarthquakeLoader
-    * @param context of the activity
-    * @param url to load data from */
-
+    /**
+     * Constructs a new EarthquakeLoader
+     *
+     * @param context of the activity
+     * @param url     to load data from
+     */
     public EarthquakeLoader(Context context, String url) {
         super(context);
         mUrl = url;
@@ -32,7 +35,6 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
     }
 
     /* this is on a background thread */
-
     @Override
     public List<Earthquake> loadInBackground() {
 

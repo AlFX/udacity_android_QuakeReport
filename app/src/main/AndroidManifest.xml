@@ -16,7 +16,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.quakereport">
 
+    <!--this allows the system to access the internet-->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--this allows the system to detect if the phone is connected to the internet-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application

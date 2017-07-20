@@ -17,12 +17,15 @@ import java.util.List;
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
     /* The part of the location string from the USGS service that we use to determine whether or
-    * not there is a location offset present (5 km north of The Shithole) */
+    * not there is a location offset present (5 km north of The Shithole)
+    *
+    * this is not perfect because it does not suit some USGS sentences but it's ok for this tutorial*/
+
     private static final String LOCATION_SEPARATOR = "of";
 
     /**
      * constructor method
-     *
+     * {@link #EarthquakeAdapter(Context, List)}
      * @param context     of the app
      * @param earthquakes is the list of earthquakes, which is the data source of the adapter
      */
@@ -39,8 +42,8 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         /*convertView is what recycles list objects once they are out of sight*/
         View listItemView = convertView;
 
-        /*if the view is not there, create it (like when app just started*/
-        /*this is a memory-costly operation which is why we do once and then recycle stuff*/
+        /*if the view is not there, create it (like when app just started
+        this is a memory-expensive operation which is why we do it once and then recycle stuff*/
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
@@ -49,25 +52,27 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         Earthquake currentEarthquake = getItem(position);
 
         /*magnitude*/
-        TextView magnitudeView = (TextView) listItemView.findViewById(R.id.magnitude);      /*find magnitude textview*/
+        TextView magnitudeView = (TextView) listItemView.findViewById(R.id.magnitude);      /*assign magnitude TextView id to variable*/
         String formattedMagnitude = formatMagnitude(currentEarthquake.getMagnitude());      /*format magnitude with the helper method below*/
-        magnitudeView.setText(formattedMagnitude);
+        magnitudeView.setText(formattedMagnitude);                                          /*put some text into the referenced TextView*/
 
-        /*set proper background color on the magnitude circle.
-        Fetch the background from the TextView, which is a GradientDrawable*/
+        /*Make magnitudeView (declared above) background callable through a variable which is a GradientDrawable
+        getBackground() works with API11+ and solid colors*/
         GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeView.getBackground();
 
-        /*get the appropriate background color based on the current earthquake magnitude*/
+        /* call getMagnitudeColor helper method to get the appropriate background color
+        based on the current earthquake magnitude*/
         int magnitudeColor = getMagnitudeColor(currentEarthquake.getMagnitude());
 
         /*set the color on the magnitude circle*/
         magnitudeCircle.setColor(magnitudeColor);
 
-        /*location*/
+        /** location */
         String originalLocation = currentEarthquake.getLocation();
         String primaryLocation;
         String locationOffset;
 
+        /** split the primary location from the offset basing on LOCATION_SEPARATOR = "of" */
         if (originalLocation.contains(LOCATION_SEPARATOR)) {
             String[] parts = originalLocation.split(LOCATION_SEPARATOR);
             locationOffset = parts[0] + LOCATION_SEPARATOR;
@@ -76,11 +81,14 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
             locationOffset = getContext().getString(R.string.near_the);
             primaryLocation = originalLocation;
         }
-
+        /** FIND */
         TextView primaryLocationView = (TextView) listItemView.findViewById(R.id.primary_location);
+        /** SET */
         primaryLocationView.setText(primaryLocation);
 
+        /** FIND */
         TextView locationOffsetView = (TextView) listItemView.findViewById(R.id.location_offset);
+        /** SET */
         locationOffsetView.setText(locationOffset);
 
         /*date*/
@@ -99,8 +107,9 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     }
 
     /**
-     * Return the color for the magnitude circle based on the intensity of the earthquake.
-     * @param magnitude of the earthquake
+     * Returns the color for the magnitude circle based on the intensity of the earthquake.
+     * {@link #getMagnitudeColor(double)} needs
+     * @param magnitude of the earthquake and returns
      */
     private int getMagnitudeColor(double magnitude) {
         int magnitudeColorResourceId;
@@ -142,6 +151,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         return ContextCompat.getColor(getContext(), magnitudeColorResourceId);
     }
 
+    /* Helper methods to return nicely formatted dates, hours and floating point numbers */
     private String formatDate(Date dateObject) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
         return dateFormat.format(dateObject);

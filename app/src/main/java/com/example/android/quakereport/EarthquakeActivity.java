@@ -19,12 +19,16 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,30 +37,23 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class EarthquakeActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Earthquake>> {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
-
     /* URL for earthquake data from the USGS dataset */
-    private static final String USGS_REQUEST_URL =
-            "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=2&limit=10";
-
+    private static final String USGS_REQUEST_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query";
     /* constant value for the earthquake loader ID. We can choose any integer.
-     * This really only comes into play if you are using multiple loaders. */
+     * This really only comes into play if you are using multiple loaders
+     * in order to identify them. */
     private static final int EARTHQUAKE_LOADER_ID = 1;
-
-
     /* when we get to the onPostExecute() method, we need to update the ListView.
      * The only way to update the contents of the list is to update the data set within
      * the EarthquakeAdapter. To access and modify the instance of the EarthquakeAdapter,
      * we need to make it a global variable in the EarthquakeActivity. */
-
     /* Adapter for the list of earthquakes */
     private EarthquakeAdapter mAdapter;
-
-    /* TextView that is displayed when the list is empty */
+    /* TextView for the empty state */
     private TextView mEmptyStateTextView;
 
     @Override
@@ -66,16 +63,16 @@ public class EarthquakeActivity extends AppCompatActivity
 
         Log.i(LOG_TAG, "TEST: Earthquake Activity onCreate() called");
 
-        // Find a reference to the ListView in the layout
+        // Find the ListView in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
-        // Find the empty TextView meant to display when no earthquakes are available
+        // Find the empty state TextView
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        /* Set the view to show if the adapter is empty = there are no earthquakes*/
         earthquakeListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of earthquakes as input
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
-
 
         // Set the adapter on the ListView, so the list can be populated in the user interface
         earthquakeListView.setAdapter(mAdapter);
@@ -100,7 +97,7 @@ public class EarthquakeActivity extends AppCompatActivity
             }
         });
 
-        /* Get a reference to  the ConnectivityManager to check state of newtwork connectivity */
+        /* Get a reference to  the ConnectivityManager to check state of network connectivity */
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         /* Get details on the currently active default data network */
@@ -130,7 +127,7 @@ public class EarthquakeActivity extends AppCompatActivity
     }
 
     /** here are the 3 callback methods that come with a LoaderManager
-     * <a href="https://developer.android.com/guide/components/loaders.html">Here</a>
+     * <a href="https://developer.android.com/guide/components/loaders.html">Have a read</a>
      *
      * {@link #onCreateLoader(int, Bundle)} called when the system needs a new Loader
      * {@link #onLoadFinished(Loader, List)} called when the loader has finished loading data
@@ -140,10 +137,26 @@ public class EarthquakeActivity extends AppCompatActivity
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
 
-        Log.i(LOG_TAG, "TEST: onCreateLoader() called...");
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String minMagnitude = sharedPrefs.getString(
+                getString(R.string.settings_min_magnitude_key),
+                getString(R.string.settings_min_magnitude_default));
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+
+        Uri baseUri = Uri.parse(USGS_REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("format", "geojson");
+        uriBuilder.appendQueryParameter("limit", "10");
+        uriBuilder.appendQueryParameter("minmag", minMagnitude);
+        uriBuilder.appendQueryParameter("orderby", orderBy);
 
         /* create a new loader for the given URL */
-        return new EarthquakeLoader(this, USGS_REQUEST_URL);
+        return new EarthquakeLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -176,4 +189,22 @@ public class EarthquakeActivity extends AppCompatActivity
         /* loader reset, so we can clear out our existing data */
         mAdapter.clear();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

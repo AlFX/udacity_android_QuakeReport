@@ -6,15 +6,11 @@ import android.util.Log;
 
 import java.util.List;
 
-/* loads a list of earthquakes by using an AsyncTask
- * to perform the network request to the given URL */
+/* loads a list of earthquakes by using an AsyncTask to perform the network request to the given URL */
 public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
-
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
-
     /* query URL */
     private String mUrl;
-
     /**
      * Constructs a new EarthquakeLoader
      *
